@@ -1,0 +1,65 @@
+@import 'base/buttons';
+@import 'base/color';
+@import 'base/spacing';
+@import 'base/typography';
+@import 'base/lists';
+
+@import 'components/buttons';
+
+* {
+  box-sizing: border-box;
+}
+
+body,
+html {
+  font-family: $font-family-default;
+}
+
+pre,
+code {
+  font-family: $font-family-monospace;
+}
+
+//
+
+.App {
+  padding: s(2);
+}
+
+.RecordingControls {
+  // border: solid 1px #f00;
+}
+
+section.Section {
+  // padding: s(2);
+}
+
+.Group {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  // border: solid 1px #f00;
+}
+
+.Timecode {
+  // border: solid 1px #f00;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  height: 10rem;
+
+  time {
+    font-family: $font-family-vcr;
+    font-size: 2rem;
+  }
+
+  &__status {
+    margin: 0;
+
+    em {
+      font-style: normal;
+      font-weight: bold;
+    }
+  }
+}

@@ -1,0 +1,21 @@
+@import 'spacing';
+
+$button-padding-x: s(3);
+$button-padding-y: s(2);
+$button-padding: $button-padding-y $button-padding-x;
+
+@mixin button-base() {
+  background-color: $color-primary;
+  padding: $button-padding;
+  color: $color-text-inverse;
+  border: solid 1px darken($color-primary, 10%);
+  cursor: pointer;
+
+  &:hover {
+    background-color: lighten($color-primary, 10%);
+  }
+
+  & + & {
+    border-left: 0;
+  }
+}

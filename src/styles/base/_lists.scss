@@ -1,0 +1,13 @@
+dl {
+  border: solid 1px #f00;
+  display: grid;
+  grid-template-columns: auto 3fr;
+
+  dt, dd {
+    margin-top: 0.5rem;
+  }
+
+  dt {
+    font-weight: bold;
+  }
+}
