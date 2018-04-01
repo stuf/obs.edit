@@ -1,3 +1,4 @@
+@import 'base/variables';
 @import 'base/buttons';
 @import 'base/color';
 @import 'base/spacing';
@@ -5,6 +6,7 @@
 @import 'base/lists';
 
 @import 'components/buttons';
+@import 'components/timecode';
 
 * {
   box-sizing: border-box;
@@ -20,46 +22,67 @@ code {
   font-family: $font-family-monospace;
 }
 
+dl pre {
+  max-height: 10rem;
+  overflow-y: scroll;
+}
+
 //
 
 .App {
   padding: s(2);
 }
 
-.RecordingControls {
-  // border: solid 1px #f00;
+.AppMain {
+  display: grid;
+  grid-template-columns: repeat($cols, 1fr);
+  grid-gap: 0.5rem;
+  grid-auto-rows: auto;
+
+  > section {
+    grid-column: 1 / span $cols;
+  }
+}
+
+section.Group {
+  margin: s(3) 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: s(3);
 }
 
 section.Section {
-  // padding: s(2);
-}
-
-.Group {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  // border: solid 1px #f00;
-}
-
-.Timecode {
-  // border: solid 1px #f00;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  text-align: center;
-  height: 10rem;
-
-  time {
-    font-family: $font-family-vcr;
-    font-size: 2rem;
+  h3 {
+    margin-top: 0;
+    padding-bottom: s(2);
+    margin-bottom: s(2);
+    border-bottom: solid 1px $color-primary;
   }
 
-  &__status {
-    margin: 0;
+  &__Timecode {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
 
-    em {
-      font-style: normal;
+  &.SceneControls {
+    display: grid;
+    grid-template-columns: 1fr auto;
+  }
+
+  &__Markers {
+    $marker-width: 6rem;
+    $marker-height: 5rem;
+
+    > div {
+      display: grid;
+      grid-template-columns: repeat(5, $marker-width);
+      grid-template-rows: repeat(5, $marker-height);
+    }
+
+    button {
+      font-size: 3rem;
       font-weight: bold;
     }
   }
 }
+

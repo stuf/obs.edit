@@ -11,3 +11,24 @@ dl {
     font-weight: bold;
   }
 }
+
+ul {
+  &.Menu {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+
+    button {
+      width: 100%;
+    }
+
+    li {
+      &:not(:first-child) {
+        button {
+          border-top: 0;
+        }
+      }
+    }
+  }
+}

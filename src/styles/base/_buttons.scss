@@ -11,7 +11,8 @@ $button-padding: $button-padding-y $button-padding-x;
   border: solid 1px darken($color-primary, 10%);
   cursor: pointer;
 
-  &:hover {
+  &:hover,
+  &.active {
     background-color: lighten($color-primary, 10%);
   }
 
