@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'karet';
-import K, * as U from 'karet.util';
+import * as U from 'karet.util';
 import * as R from 'ramda';
 
 import * as H from './utils';

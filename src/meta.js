@@ -21,6 +21,8 @@ export const ResponseTfn = {
 
 //
 
+export const activeIn = U.view(['status', L.reread(x => x === 'started'), L.define(false)]);
+
 export const settingsIn = U.view('settings');
 export const recFolderIn = U.view('recordingFolder');
 export const filenameFormatIn = U.view('filenameFormatting');
@@ -36,6 +38,7 @@ export const profilesIn = U.view('profiles');
 
 export const timecodeL = L.props('status', 'timecode');
 export const timecodeIn = U.view(timecodeL);
+export const timecodeValueIn = U.view(['timecode', L.define('00:00:00.000')])
 
 export const View = {
   [Request.GetStreamingStatus]:

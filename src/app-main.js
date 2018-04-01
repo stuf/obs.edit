@@ -1,18 +1,21 @@
 import * as React from 'karet';
 import * as U from 'karet.util';
-import * as L from 'partial.lenses';
 
+import * as M from './meta';
 import { notEmpty } from './utils';
-import { registerSocket, response, responsesCount, sendRequest } from './socket';
 import { getStreamingStatus } from './actions';
+
+import {
+  registerSocket,
+  response,
+  responsesCount,
+  sendRequest
+} from './socket';
 
 import Timecode from './components/timecode';
 import SceneSelect from './components/scene-select';
 
 //
-
-const activeIn = U.view(['status', L.reread(x => x === 'started'), L.define(false)]);
-const timecodeIn = U.view(['timecode', L.define('00:00:00.000')]);
 
 const recordingIn = U.view('recording');
 const streamingIn = U.view('streamig');
@@ -48,12 +51,12 @@ const AppMain = ({ ws }, { store }) => {
       </section>
 
       <section className="Section Section__Timecode">
-        <Timecode value={timecodeIn(rec)}
+        <Timecode value={M.timecodeValueIn(rec)}
                   type="Recording"
-                  active={activeIn(rec)} />
-        <Timecode value={timecodeIn(stream)}
+                  active={M.activeIn(rec)} />
+        <Timecode value={M.timecodeValueIn(stream)}
                   type="Streaming"
-                  active={activeIn(stream)} />
+                  active={M.activeIn(stream)} />
       </section>
 
       <section className="Group">
@@ -64,8 +67,7 @@ const AppMain = ({ ws }, { store }) => {
 
           <div>
             {U.seq(U.range(1, 20),
-                   U.map(i =>
-                     <button key={i}>{i}</button>))}
+                   U.map(i => <button key={i}>{i}</button>))}
           </div>
         </section>
 
