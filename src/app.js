@@ -1,21 +1,18 @@
+// @flow
 import * as React from 'karet';
 import K, * as U from 'karet.util';
 import * as R from 'ramda';
-import * as L from 'partial.lenses';
-import { stream, constant } from 'kefir';
 
 import * as H from './utils';
 import store from './store';
-import { createSocket, send } from './socket';
-import * as M from './meta';
+import { createSocket, send, response, handler } from './socket';
 import AppMain from './app-main';
-import { handle } from './handler';
+import { Request } from './constants';
+import * as Handler from './handlers';
 
 const ws = U.template(createSocket());
 
 //
-
-handle(store);
 
 const initialFetch = [
   ['GetFilenameFormatting'],
@@ -24,26 +21,43 @@ const initialFetch = [
   ['ListProfiles'],
   ['GetSourcesList'],
   ['GetSpecialSources'],
-  ['GetStreamingStatus']
+  ['GetStreamingStatus'],
+  [Request.GetSceneList],
+  [Request.GetCurrentScene],
 ];
 
-ws.onValue(s => {
-  console.log('WebSocket opened', s);
+// @todo Fixme
 
+ws.onValue(s => {
   initialFetch.forEach(([rt]) => {
-    // console.log({ rt });
     send(rt, s)
-      .onValue(v => {
-        // console.log(H.transformIncomingObj(v));
-      });
-  })
+  });
 });
+
+//
+
+const handleResponses =
+  U.seq(response,
+        U.mapValue(res => [res, Handler[res.$$requestType]]),
+        U.lift(H.logRequestType),
+        U.skipUnless(R.last),
+        U.on({ value: ([x, f]) => f(store, x) }));
+
+const initialData = [handler, handleResponses];
+
+//
 
 const App = () =>
   <div className="App">
-    <AppMain ws={ws} />
+    {U.sink(U.serially(initialData))}
+
+    <U.Context context={{ store }}>
+      <AppMain ws={ws} />
+    </U.Context>
 
     <pre><code>{store.map(x => JSON.stringify(x, null, 2))}</code></pre>
   </div>;
+
+//
 
 export default App;

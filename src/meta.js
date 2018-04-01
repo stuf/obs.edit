@@ -1,3 +1,4 @@
+import * as U from 'karet.util';
 import * as R from 'ramda';
 import * as L from 'partial.lenses';
 import { camelCasePascal, pascalCaseCamel } from './utils';
@@ -17,3 +18,33 @@ export const ResponseTfn = {
   [Request.GetVersion]: L.transform(['availableRequests',
                                      L.modifyOp(R.split(','))])
 };
+
+//
+
+export const settingsIn = U.view('settings');
+export const recFolderIn = U.view('recordingFolder');
+export const filenameFormatIn = U.view('filenameFormatting');
+
+export const isActiveIn = k => [k, L.normalize(R.equals('started'))];
+
+export const currentSceneIn = U.view(['scenes', 'current']);
+export const sceneListIn = U.view(['scenes', 'sceneList', L.define([])]);
+
+export const profilesIn = U.view('profiles');
+
+//
+
+export const timecodeL = L.props('status', 'timecode');
+export const timecodeIn = U.view(timecodeL);
+
+export const View = {
+  [Request.GetStreamingStatus]:
+    U.view(L.pickIn({ recording: timecodeL, streaming: timecodeL })),
+  [Request.GetFilenameFormatting]:
+    U.view(['settings', 'filenameFormatting']),
+};
+
+//
+
+export const obsVersionIn =
+  U.view(['obs', L.props('availableRequests', 'obsStudioVersion', 'obsWebsocketVersion')])

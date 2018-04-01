@@ -28,14 +28,32 @@ export const camelCaseKebab =
          flatJoin);
 
 export const kebabCaseCamel =
-  R.pipe(L.modify([L.keys,
-                   L.reread(R.unary(splitCamelCase)),
+  R.pipe(U.show,
+         L.modify([L.keys,
+                   L.reread(splitCamelCase),
                    L.log('%s ~> %o')],
+         U.show,
          R.identity),
+         U.show,
          flatJoin);
 
 //#   transformIncomingObj :: Any -> Any
 export const transformIncomingObj = L.modify(L.keys, R.unary(camelCaseKebab));
 
 //#   transformOutgoingObj :: Any -> Any
-export const transformOutgoingObj = L.modify(L.keys, R.unary(kebabCaseCamel));
+export const transformOutgoingObj = L.modify(L.keys, kebabCaseCamel);
+
+export const logRequestType = x => {
+  const evType = L.get([L.first, '$$requestType'], x);
+
+  if (!!x[1]) {
+    console.groupCollapsed(`Request to handle: ${evType}`);
+    console.log(x);
+    console.groupEnd();
+  }
+  else {
+    console.warn(`No handler found for event of type ${evType}`);
+  }
+
+  return x;
+}
