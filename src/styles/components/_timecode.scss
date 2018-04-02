@@ -1,25 +1,53 @@
-$-border-color: $color-primary;
-$-border: solid 2px $-border-color;
-// $-active-bg: $color-primary;
+@import '../base/color';
 
-$-bg: $color-primary;
-$-text: $color-text-inverse;
-$-active-bg: #fff;
-$-active-text: $color-text;
+@mixin timecode-color($-color, $-text: $color-text-inverse, $-text-active: $color-text) {
+  $-border: solid 2px $-color;
 
-.Timecode {
-  display: grid;
-  text-align: center;
-  border-radius: $border-radius;
-  border: $-border;
-  background: $-bg;
-  overflow: hidden;
+  //
+
+  background: $-color;
   color: $-text;
+
+  border: $-border;
 
   header,
   time {
     border-bottom: $-border;
   }
+
+  footer {
+    ul {
+      border-top: $-border;
+    }
+
+    li {
+      &:not(:first-child) {
+        border-left: $-border;
+      }
+
+      &.active {
+        background: #fff;
+        color: $-text-active;
+      }
+    }
+  }
+}
+
+.Timecode {
+  &__active {
+    @include timecode-color($color-red);
+  }
+
+  &__inactive {
+    @include timecode-color($color-primary);
+  }
+}
+
+.Timecode {
+  display: grid;
+  text-align: center;
+  border-radius: $border-radius;
+  overflow: hidden;
 
   header {
     > div {
@@ -45,7 +73,7 @@ $-active-text: $color-text;
       list-style: none;
       padding: 0;
       margin: 0;
-      border-top: $-border;
+      // border-top: $-border;
     }
 
     li {
@@ -54,72 +82,6 @@ $-active-text: $color-text;
       font-weight: bold;
       text-transform: uppercase;
       letter-spacing: 0.05em;
-
-      &:not(:first-child) {
-        border-left: $-border;
-      }
-
-      &.active {
-        background: $-active-bg;
-        color: $-active-text;
-      }
     }
   }
 }
-
-// .Timecode {
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   flex-direction: column;
-//   text-align: center;
-//   padding: s(3) s(4);
-
-//   time {
-//     font-family: $font-family-vcr;
-//     font-size: 5vh;
-//     background: #000;
-//     color: #76FF03;
-//     padding: s(2) s(3);
-//     margin: s(2) s(3);
-//     border-radius: 0.5rem;
-//   }
-
-//   header {
-//     font-weight: bold;
-//   }
-
-//   &__status {
-//     list-style: none;
-//     padding: 0;
-//     display: grid;
-//     grid-template-columns: repeat(4, 1fr);
-
-//     li {
-//       border: solid 1px $color-primary;
-//       padding: s(2) s(3);
-//       font-size: 0.8rem;
-//       text-transform: uppercase;
-//       font-weight: bold;
-
-//       &:not(:first-child) {
-//         border-left: 0;
-//       }
-
-//       &:first-child {
-//         border-top-left-radius: $border-radius;
-//         border-bottom-left-radius: $border-radius;
-//       }
-
-//       &:last-child {
-//         border-top-right-radius: $border-radius;
-//         border-bottom-right-radius: $border-radius;
-//       }
-
-//       &.active {
-//         background: $color-primary;
-//         color: $color-text-inverse;
-//       }
-//     }
-//   }
-// }

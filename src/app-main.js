@@ -20,7 +20,7 @@ import SceneSelect from './components/scene-select';
 //
 
 const recordingIn = U.view('recording');
-const streamingIn = U.view('streamig');
+const streamingIn = U.view('streaming');
 
 const AppMain = ({ ws }, { store }) => {
   registerSocket(ws);

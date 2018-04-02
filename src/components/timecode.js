@@ -2,7 +2,7 @@ import * as React from 'karet';
 import * as U from 'karet.util';
 
 const Timecode = ({ value, type, tickFn, active, isActive = U.equals(active) }) =>
-  <article className="Timecode">
+  <article className={U.cns('Timecode', U.ifte(U.equals(active, 'started'), 'Timecode__active', 'Timecode__inactive'))}>
     <header>
       <div>{type}</div>
     </header>

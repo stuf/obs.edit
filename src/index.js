@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import 'normalize.css';
 
 import './styles/main.css';
+import './idb';
 import App from './app';
 import registerServiceWorker from './registerServiceWorker';
 
