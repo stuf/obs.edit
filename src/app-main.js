@@ -1,5 +1,6 @@
 import * as React from 'karet';
 import * as U from 'karet.util';
+import * as L from 'partial.lenses';
 
 import * as M from './meta';
 import { notEmpty } from './utils';
@@ -9,7 +10,8 @@ import {
   registerSocket,
   response,
   responsesCount,
-  sendRequest
+  sendRequest,
+  events
 } from './socket';
 
 import Timecode from './components/timecode';
@@ -77,17 +79,24 @@ const AppMain = ({ ws }, { store }) => {
         </section>
       </section>
 
-      <section className="Section">
-        <dl>
-          <dt>Websocket</dt>
-          <dd>{U.ifte(notEmpty(ws), 'open', 'not open')}</dd>
+      <section className="Group">
+        <section className="Section">
+          <dl>
+            <dt>Websocket</dt>
+            <dd>{U.ifte(notEmpty(ws), 'open', 'not open')}</dd>
 
-          <dt>Messages received</dt>
-          <dd>{responsesCount}</dd>
+            <dt>Messages received</dt>
+            <dd>{responsesCount}</dd>
 
-          <dt>Last message</dt>
-          <dd><pre><code>{response.map(x => JSON.stringify(x, null, 2))}</code></pre></dd>
-        </dl>
+            <dt>Last message</dt>
+            <dd><pre><code>{response.map(x => JSON.stringify(x, null, 2))}</code></pre></dd>
+          </dl>
+        </section>
+
+        <section className="Section">
+          <h3>Last event</h3>
+          <pre><code>{U.view(L.json({ space: 2 }), events)}</code></pre>
+        </section>
       </section>
     </div>,
     <div>

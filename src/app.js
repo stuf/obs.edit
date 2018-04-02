@@ -46,17 +46,20 @@ const handleValue = (obs, handlerObj, getter) =>
         U.mapValue(v => [v, handlerObj[getter(v)]]),
         U.lift(log),
         U.skipUnless(R.last),
-        U.on({ value: ([x, f]) => f(store, x) }));
+        U.on({ value: ([x, f]) => f(store, x) })).log('handler');
 
 const handleResponses = handleValue(response, RequestHandler, R.prop('$$requestType'));
+const handleEvents = handleValue(events, EventHandler, R.prop('updateType'));
 
-const initialData = [handler, handleResponses];
+//
+
+const observaleHandlers = U.serially([handler, handleResponses, handleEvents]);
 
 //
 
 const App = () =>
   <div className="App">
-    {U.sink(U.serially(initialData))}
+    {U.sink(observaleHandlers)}
 
     <U.Context context={{ store }}>
       <AppMain ws={ws} />

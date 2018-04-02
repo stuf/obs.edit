@@ -99,8 +99,8 @@ export const sendRequest = (type: string, args: {}): void => requests.push([type
 export const events: Observable<Event, *> =
   U.seq(socket,
         U.flatMapLatest(listenTo('message')),
-        U.lift(U.show),
-        U.skipUnless(R.has('update-type')));
+        U.lift(tfnInc),
+        U.skipUnless(R.has('updateType')));
 
 //
 
