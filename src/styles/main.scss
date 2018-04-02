@@ -62,6 +62,7 @@ section.Section {
   &__Timecode {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    grid-gap: s(2);
   }
 
   &.SceneControls {
@@ -76,7 +77,7 @@ section.Section {
     > div {
       display: grid;
       grid-template-columns: repeat(5, $marker-width);
-      grid-template-rows: repeat(5, $marker-height);
+      grid-template-rows: repeat(2, $marker-height);
     }
 
     button {
