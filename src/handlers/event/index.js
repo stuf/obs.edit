@@ -1,3 +1,4 @@
+export { default as SwitchScenes } from './switch-scenes';
 export { default as RecordingStarted } from './recording-started';
 export { default as RecordingStarting } from './recording-starting';
 export { default as RecordingStopping } from './recording-stopping';

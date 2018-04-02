@@ -44,15 +44,13 @@ export const transformIncomingObj = L.modify(L.keys, R.unary(camelCaseKebab));
 export const transformOutgoingObj = L.modify(L.keys, kebabCaseCamel);
 
 export const logType = t => x => {
-  const evType = L.get([L.first, '$$requestType'], x);
-
   if (!!x[1]) {
-    console.groupCollapsed(`${t} for '${evType}'`);
+    console.groupCollapsed(t);
     console.log(x);
     console.groupEnd();
   }
   else {
-    console.warn(`No handler found for event of type ${evType}`);
+    console.warn(`No handler found for ${t} of ${x[0]}`);
   }
 
   return x;

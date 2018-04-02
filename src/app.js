@@ -1,5 +1,6 @@
 // @flow
 import * as React from 'karet';
+import type { ComponentType } from 'react';
 import * as U from 'karet.util';
 import * as R from 'ramda';
 
@@ -24,32 +25,33 @@ const initialFetch = [
   ['GetSourcesList', undefined],
   ['GetSpecialSources', undefined],
   ['GetStreamingStatus', undefined],
-  ['SetHeartbeat', { enable: true }],
+  ['SetHeartbeat', { enable: false }],
   [Request.GetSceneList, undefined],
   [Request.GetCurrentScene, undefined],
 ];
 
 // @todo Fixme
 
-ws.onValue(s => {
-  initialFetch.forEach(([rt: $Values<RequestType>, a: any | undefined]) => {
-    send(rt, s, a);
+U.holding(() => {
+  ws.onValue(s => {
+    initialFetch.forEach(([rt: $Values<RequestType>, a: any | undefined]) => {
+      // $FlowFixMe
+      send(rt, s, a);
+    });
   });
 });
 
 //
 
-const log = H.logType('handler');
-
-const handleValue = (obs, handlerObj, getter) =>
+const handleValue = (obs, handlerObj, getter, name = 'handler', logger = H.logType(name)) =>
   U.seq(obs,
         U.mapValue(v => [v, handlerObj[getter(v)]]),
-        U.lift(log),
         U.skipUnless(R.last),
-        U.on({ value: ([x, f]) => f(store, x) })).log('handler');
+        U.flatMapLatest(([x, f]) => U.lift1(f(store))(x)),
+        U.on({ value: R.identity }))
 
-const handleResponses = handleValue(response, RequestHandler, R.prop('$$requestType'));
-const handleEvents = handleValue(events, EventHandler, R.prop('updateType'));
+const handleResponses = handleValue(response, RequestHandler, R.prop('$$requestType'), 'response');
+const handleEvents = handleValue(events, EventHandler, R.prop('updateType'), 'event');
 
 //
 
@@ -57,7 +59,7 @@ const observaleHandlers = U.serially([handler, handleResponses, handleEvents]);
 
 //
 
-const App = () =>
+const App: ComponentType<*> = () =>
   <div className="App">
     {U.sink(observaleHandlers)}
 

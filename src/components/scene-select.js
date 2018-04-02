@@ -8,7 +8,7 @@ const isCurrent = U.lift((a, b) => a.name === b);
 const Scene = ({ item, isActive }) => {
   return (
     <li role="menuitem">
-      <button onClick={() => setCurrentScene(U.view('name', item)).log()}
+      <button onClick={() => setCurrentScene(U.view('name', item))}
               className={U.cns(U.ift(isActive, 'active'))}>
         {U.view('name', item)}
       </button>

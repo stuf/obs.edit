@@ -2,9 +2,13 @@
 import K, * as U from 'karet.util';
 import * as R from 'ramda';
 import * as L from 'partial.lenses';
-import { fromEvents, stream, Observable } from 'kefir';
+import { fromEvents as Kefir_fromEvents, stream, Observable } from 'kefir';
 
 import { curry2, transformIncomingObj as tfnInc } from './utils';
+
+const fromEvents = R.curryN(2, Kefir_fromEvents);
+
+//
 
 interface ObsEvent {
   messageId: string;
@@ -16,6 +20,8 @@ type Event = ObsEvent & { [key: string]: any };
 
 type ArgumentObj = { [key: string]: string };
 
+//
+
 const socket = U.bus();
 const requests = U.bus();
 const responses = U.bus();
@@ -24,10 +30,10 @@ const socketP = socket.toProperty();
 const requestsP = requests.toProperty();
 const responsesP = responses.toProperty();
 
-export const response =
+export const response: Observable<*, *> =
   U.identity(responsesP);
 
-export const responsesCount =
+export const responsesCount: Observable<number, *> =
   U.seq(responsesP,
         U.mapValue(U.always(1)),
         U.foldPast(R.add, 0))
@@ -44,19 +50,11 @@ export const createSocket = (url: string = 'ws://10.0.1.2:4444'): Observable<Web
   });
 
 
-/**
- * @param type
- * @param s
- * @returns Oservable stream for the given event type
- */
 export const listenTo_ = (type: string, s: WebSocket): Observable<*, *> =>
-  fromEvents(s, type).map(L.get(['data', L.json()]));
+  U.seq(type,
+        fromEvents(s),
+        U.mapValue(L.get(['data', L.json()])));
 
-/**
- * @param {String} type
- * @param {WebSocket} s
- * @returns {Observable}
- */
 export const listenTo = curry2(listenTo_);
 
 //
@@ -65,7 +63,7 @@ let requestCounter: number = 0;
 
 const getMessageId = (): string => `obs:internal:message-${requestCounter++}`;
 
-export const send_ = (type: string, args?: ArgumentObj, s: WebSocket) => {
+export const send_ = (type: string, args?: ArgumentObj, s: WebSocket): Observable<*, *> => {
   const messageId = getMessageId();
 
   const requestArgs: ArgumentObj = {
@@ -90,9 +88,11 @@ export const send_ = (type: string, args?: ArgumentObj, s: WebSocket) => {
   return response;
 };
 
-export const send = (type: string, s: WebSocket, args?: ArgumentObj) => send_(type, args, s);
+export const send = (type: string, s: WebSocket, args?: ArgumentObj): Observable<*, *> =>
+  send_(type, args, s);
 
-export const sendRequest = (type: string, args: {}): void => requests.push([type, args]);
+export const sendRequest = (type: string, args: {}): void =>
+  requests.push([type, args]);
 
 //
 
@@ -104,12 +104,13 @@ export const events: Observable<Event, *> =
 
 //
 
-export const handler =
+export const handler: Observable<*, *> =
   U.seq(K(socketP, requestsP),
-        U.on({ value: ([s, [r, as]]) => send(r, s, as) }));
+        U.flatMapLatest(([s, [r, as]]) => K(s, r, as)),
+        U.on({ value: ([s, r, as]) => send(r, s, as) }));
 //
 
-export const registerSocket = (s: Observable<WebSocket> | WebSocket) => {
+export const registerSocket = (s: Observable<WebSocket> | WebSocket): void => {
   s instanceof Observable
     ? s.onValue(v => socket.push(v))
     : socket.push(s);

@@ -14,9 +14,10 @@ export const toggleRecording =
 export const getStreamingStatus =
   () => S.sendRequest(Request.GetStreamingStatus);
 
-export const setCurrentScene =
-  U.lift1(sceneName =>
-    U.serially([
-      S.sendRequest(Request.SetCurrentScene, { 'scene-name': sceneName }),
-      S.sendRequest(Request.GetCurrentScene)
-    ]));
+export const setCurrentScene = name =>
+  S.sendRequest(Request.SetCurrentScene, { 'scene-name': name });
+  // U.lift1(sceneName =>
+  //   U.serially([
+  //     S.sendRequest(Request.SetCurrentScene, { 'scene-name': sceneName }),
+  //     S.sendRequest(Request.GetCurrentScene)
+  //   ]));

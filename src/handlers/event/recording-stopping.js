@@ -1,6 +1,6 @@
 import { statusFor } from './meta';
 
-const RecordingStopping = (store, event) => {
+const RecordingStopping = store => event => {
   statusFor('recording', store).set('stopping');
 };
 
