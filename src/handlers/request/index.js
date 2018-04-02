@@ -4,4 +4,3 @@ export { default as GetRecordingFolder } from './get-recording-folder';
 export { default as GetFilenameFormatting } from './get-filename-formatting';
 export { default as GetVersion } from './get-version';
 export { default as ListProfiles } from './list-profiles';
-export { default as RecordingStarting } from './recording-starting';
