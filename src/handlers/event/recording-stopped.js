@@ -1,7 +1,7 @@
-import * as U from 'karet.util';
+import { statusFor } from './meta';
 
 const RecordingStopped = store => event => {
-  U.view(['recording', 'status'], store).set('stopped');
-}
+  statusFor('recording', store).set('stopped');
+};
 
 export default RecordingStopped;

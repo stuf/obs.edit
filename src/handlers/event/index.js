@@ -1,4 +1,9 @@
 export { default as SwitchScenes } from './switch-scenes';
+export { default as StreamStatus } from './stream-status';
+export { default as StreamStarting } from './stream-starting';
+export { default as StreamStarted } from './stream-started';
+export { default as StreamStopping } from './stream-stopping';
+export { default as StreamStopped } from './stream-stopped';
 export { default as RecordingStarted } from './recording-started';
 export { default as RecordingStarting } from './recording-starting';
 export { default as RecordingStopping } from './recording-stopping';
