@@ -11,8 +11,8 @@ export const toggleRecording =
     ])
   );
 
-export const getStreamingStatus =
-  () => S.sendRequest(Request.GetStreamingStatus);
+export const getStreamingStatus = () =>
+  S.sendRequest(Request.GetStreamingStatus);
 
 export const setCurrentScene = name =>
   S.sendRequest(Request.SetCurrentScene, { 'scene-name': name });

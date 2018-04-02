@@ -21,7 +21,7 @@ export const ResponseTfn = {
 
 //
 
-export const activeIn = U.view(['status', L.reread(x => x === 'started'), L.define(false)]);
+export const activeIn = U.view('status');
 
 export const settingsIn = U.view('settings');
 export const recFolderIn = U.view('recordingFolder');
