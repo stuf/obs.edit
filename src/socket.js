@@ -4,7 +4,15 @@ import * as R from 'ramda';
 import * as L from 'partial.lenses';
 import { fromEvents, stream, Observable } from 'kefir';
 
-import { curry2, transformIncomingObj } from './utils';
+import { curry2, transformIncomingObj as tfnInc } from './utils';
+
+interface ObsEvent {
+  messageId: string;
+  status: 'ok' | 'error';
+  $$requestType?: string;
+}
+
+type Event = ObsEvent & { [key: string]: any };
 
 type ArgumentObj = { [key: string]: string };
 
@@ -57,7 +65,7 @@ let requestCounter: number = 0;
 
 const getMessageId = (): string => `obs:internal:message-${requestCounter++}`;
 
-export const send_ = (type: string, args: ArgumentObj = {}, s: WebSocket) => {
+export const send_ = (type: string, args?: ArgumentObj, s: WebSocket) => {
   const messageId = getMessageId();
 
   const requestArgs: ArgumentObj = {
@@ -70,7 +78,7 @@ export const send_ = (type: string, args: ArgumentObj = {}, s: WebSocket) => {
     U.seq(s,
           listenTo('message'),
           U.template,
-          U.lift1(transformIncomingObj),
+          U.lift1(tfnInc),
           U.skipUnless(R.whereEq({ messageId })),
           U.takeFirst(1),
           U.lift1(L.set('$$requestType', type)));
@@ -82,9 +90,17 @@ export const send_ = (type: string, args: ArgumentObj = {}, s: WebSocket) => {
   return response;
 };
 
-export const send = (type: string, s: WebSocket, args: {} = {}) => send_(type, args, s);
+export const send = (type: string, s: WebSocket, args?: ArgumentObj) => send_(type, args, s);
 
 export const sendRequest = (type: string, args: {}): void => requests.push([type, args]);
+
+//
+
+export const events: Observable<Event, *> =
+  U.seq(socket,
+        U.flatMapLatest(listenTo('message')),
+        U.lift(U.show),
+        U.skipUnless(R.has('update-type')));
 
 //
 

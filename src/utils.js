@@ -43,11 +43,11 @@ export const transformIncomingObj = L.modify(L.keys, R.unary(camelCaseKebab));
 //#   transformOutgoingObj :: Any -> Any
 export const transformOutgoingObj = L.modify(L.keys, kebabCaseCamel);
 
-export const logRequestType = x => {
+export const logType = t => x => {
   const evType = L.get([L.first, '$$requestType'], x);
 
   if (!!x[1]) {
-    console.groupCollapsed(`Request to handle: ${evType}`);
+    console.groupCollapsed(`${t} for '${evType}'`);
     console.log(x);
     console.groupEnd();
   }
