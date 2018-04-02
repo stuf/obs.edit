@@ -4,4 +4,5 @@ export { default as SetCurrentScene } from './set-current-scene';
 export { default as GetRecordingFolder } from './get-recording-folder';
 export { default as GetFilenameFormatting } from './get-filename-formatting';
 export { default as GetVersion } from './get-version';
+export { default as GetStreamingStatus } from './get-streaming-status';
 export { default as ListProfiles } from './list-profiles';
