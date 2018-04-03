@@ -1,5 +1,7 @@
 import * as React from 'karet';
 import * as U from 'karet.util';
+import * as R from 'ramda';
+import * as L from 'partial.lenses';
 
 import * as M from './meta';
 import { getStreamingStatus } from './actions';
@@ -12,6 +14,7 @@ import {
 import Timecode from './components/timecode';
 import SceneSelect from './components/scene-select';
 import Stats from './components/stats';
+import Scene from './components/scene';
 
 //
 
@@ -24,6 +27,13 @@ const AppMain = ({ ws }, { store }) => {
   const rec = recordingIn(store);
   const stream = streamingIn(store);
   const stats = M.statsIn(store);
+  const currentSceneName = M.currentSceneNameIn(store);
+  const sceneList = M.sceneListIn(store);
+
+  const activeScene =
+    U.seq(U.mapValue(name => L.filter(R.whereEq({ name })), currentSceneName),
+          x => U.view(x, sceneList),
+          U.head).log('active');
 
   return U.fromKefir(U.ifte(ws,
     <div className="AppMain">
@@ -68,9 +78,14 @@ const AppMain = ({ ws }, { store }) => {
       </section>
 
       <section className="Group">
+        {/* Active scene preview comes here */}
+        <Scene scene={activeScene} />
+      </section>
+
+      <section className="Group">
         <section className="Section Section__Markers">
           <header>
-            <h3>Markers</h3>
+            <h3 className="h3">Markers</h3>
           </header>
 
           <div>
@@ -81,7 +96,7 @@ const AppMain = ({ ws }, { store }) => {
 
         <aside>
           <section className="Section Section_RecFolder">
-            <h3>Recording folder</h3>
+            <h3 className="h3">Recording folder</h3>
 
             <div>
               <div className="Group__input">
@@ -95,10 +110,10 @@ const AppMain = ({ ws }, { store }) => {
                 <summary>Recent folders</summary>
 
                 <ul>
-                  {U.seq(store,
-                         M.recordingFoldersIn,
+                  {U.seq(M.recordingFoldersIn(store),
+                         U.lift(U.show),
                          U.mapElems((el, i) =>
-                           <li key={i}>{el}</li>))}
+                           <li key={i}>{el.log()}</li>))}
                 </ul>
               </details>
             </div>

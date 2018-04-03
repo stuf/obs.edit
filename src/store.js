@@ -2,6 +2,7 @@
 import * as U from 'karet.util';
 // import Storage from 'atom.storage';
 import type { LocalSettings, StatsState } from './types/state';
+import type { Scene } from './types/models';
 
 interface VideoActivityState {
   status: 'stopped' | 'starting' | 'started' | 'stopping';
@@ -33,7 +34,7 @@ interface ObsSpecialSource {
 
 interface ScenesState {
   current: string;
-  sceneList: Array<*>;
+  sceneList: Array<Scene>;
 }
 
 interface State {
@@ -72,7 +73,7 @@ const initialState: State = {
     recordingFolder: '',
   },
   settingsLocal: {
-    recordingFolders: []
+    recordingFolders: ['foo', 'bar']
   },
   obs: {},
 };

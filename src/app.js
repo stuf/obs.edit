@@ -59,7 +59,7 @@ U.holding(() => {
 
 //
 
-const handleV = <T>({ obs, handlerObj, getter, name, logger = H.logType(name || 'handler') }: ValueHandlerArg<T>) =>
+const handleV = <T>({ obs, handlerObj, getter, name }: ValueHandlerArg<T>) =>
   U.seq(obs,
         // $FlowFixMe
         U.mapValue(v => [v, handlerObj[getter(v)]]),
