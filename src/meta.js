@@ -36,9 +36,14 @@ export const profilesIn = U.view('profiles');
 
 //
 
+export const recordingIn = U.view('recording');
+export const streamingIn = U.view('streaming');
+
 export const timecodeL = L.props('status', 'timecode');
 export const timecodeIn = U.view(timecodeL);
 export const timecodeValueIn = U.view(['timecode', L.define('00:00:00.000')])
+export const statsIn = U.view('stats');
+export const statsFor = (t, s) => U.view(['stats', t], s);
 
 export const View = {
   [Request.GetStreamingStatus]:

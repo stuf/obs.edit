@@ -1,21 +1,17 @@
 import * as React from 'karet';
 import * as U from 'karet.util';
-import * as L from 'partial.lenses';
 
 import * as M from './meta';
-import { notEmpty } from './utils';
 import { getStreamingStatus } from './actions';
 
 import {
   registerSocket,
-  response,
-  responsesCount,
   sendRequest,
-  events
 } from './socket';
 
 import Timecode from './components/timecode';
 import SceneSelect from './components/scene-select';
+import Stats from './components/stats';
 
 //
 
@@ -27,6 +23,7 @@ const AppMain = ({ ws }, { store }) => {
 
   const rec = recordingIn(store);
   const stream = streamingIn(store);
+  const stats = M.statsIn(store);
 
   return U.fromKefir(U.ifte(ws,
     <div className="AppMain">
@@ -52,13 +49,20 @@ const AppMain = ({ ws }, { store }) => {
         </button>
       </section>
 
-      <section className="Section Section__Timecode">
-        <Timecode value={M.timecodeValueIn(rec)}
-                  type="Recording"
-                  active={M.activeIn(rec)} />
-        <Timecode value={M.timecodeValueIn(stream)}
-                  type="Streaming"
-                  active={M.activeIn(stream)} />
+      <section className="Group">
+        <article>
+          <Timecode value={M.timecodeValueIn(rec)}
+                    type="Recording"
+                    active={M.activeIn(rec)} />
+          <Stats stats={M.recordingIn(stats)} />
+        </article>
+
+        <article>
+          <Timecode value={M.timecodeValueIn(stream)}
+            type="Streaming"
+            active={M.activeIn(stream)} />
+          <Stats stats={M.streamingIn(stats)} />
+        </article>
       </section>
 
       <section className="Group">
@@ -73,10 +77,18 @@ const AppMain = ({ ws }, { store }) => {
           </div>
         </section>
 
-        <section className="Section Section_SceneSelect">
-          <SceneSelect current={U.view(['scenes', 'current'], store)}
-                       scenes={U.view(['scenes', 'sceneList'], store)} />
-        </section>
+        <aside>
+          <section className="Section Section_RecFolder">
+            <input type="datalist" list="datalist" />
+            <datalist id="datalist">
+              <option value="Default" />
+            </datalist>
+          </section>
+          <section className="Section Section_SceneSelect">
+            <SceneSelect current={U.view(['scenes', 'current'], store)}
+                        scenes={U.view(['scenes', 'sceneList'], store)} />
+          </section>
+        </aside>
       </section>
     </div>,
     <div>

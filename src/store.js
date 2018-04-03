@@ -1,6 +1,7 @@
 // @flow
 import * as U from 'karet.util';
-import Storage from 'atom.storage';
+// import Storage from 'atom.storage';
+import type { LocalSettings, StatsState } from './types/state';
 
 interface VideoActivityState {
   status: 'stopped' | 'starting' | 'started' | 'stopping';
@@ -35,14 +36,6 @@ interface ScenesState {
   sceneList: Array<*>;
 }
 
-interface StatsState {
-  fps?: number;
-  strain?: number;
-  totalStreamTime?: number;
-  numTotalFrames?: number;
-  numDroppedFrames?: number;
-}
-
 interface State {
   recording: VideoActivityState;
   streaming: VideoActivityState;
@@ -52,6 +45,7 @@ interface State {
   sources: Array<ObsSource>;
   specialSources: Array<ObsSpecialSource>;
   settings: SettingsState;
+  settingsLocal: LocalSettings;
   obs: ObsState;
 }
 
@@ -62,11 +56,14 @@ const initialState: State = {
   streaming: {
     status: 'stopped',
   },
-  stats: {},
   profiles: [],
   scenes: {
     current: '',
     sceneList: [],
+  },
+  stats: {
+    recording: { time: 0, bytes: 0, frames: 0 },
+    streaming: { time: 0, bytes: 0, frames: 0 }
   },
   sources: [],
   specialSources: [],
@@ -77,12 +74,12 @@ const initialState: State = {
   obs: {},
 };
 
-const storageConfig = {
-  key: 'obs.edit:state-v1',
-  value: initialState,
-  Atom: U.atom,
-  storage: localStorage,
-};
+// const storageConfig = {
+//   key: 'obs.edit:state-v1',
+//   value: initialState,
+//   Atom: U.atom,
+//   storage: localStorage,
+// };
 
 // const store = Storage(storageConfig);
 const store = U.atom(initialState);

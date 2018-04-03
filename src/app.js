@@ -25,7 +25,7 @@ const initialFetch = [
   ['GetSourcesList', undefined],
   ['GetSpecialSources', undefined],
   ['GetStreamingStatus', undefined],
-  ['SetHeartbeat', { enable: false }],
+  ['SetHeartbeat', { enable: true }],
   [Request.GetSceneList, undefined],
   [Request.GetCurrentScene, undefined],
 ];
