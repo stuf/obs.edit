@@ -2,7 +2,7 @@
 import * as U from 'karet.util';
 import * as L from 'partial.lenses';
 import { statusL } from './meta';
-import { ObsEvent } from '../../types/obs';
+import type { ObsEvent } from '../../types/obs';
 
 interface Event {
   previewOnly: boolean;
@@ -12,7 +12,7 @@ interface Event {
   streamTimecode: string;
 }
 
-const GetStreamingStatus = store => (event: ObsEvent & Event) => {
+const GetStreamingStatus = (store: *) => (event: ObsEvent & Event) => {
   const l = L.pick({
     recording: L.pick({ status: ['recording', statusL], timecode: 'recTimecode' }),
     streaming: L.pick({ status: ['streaming', statusL], timecode: 'streamTimecode' })

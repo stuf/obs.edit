@@ -1,5 +1,6 @@
 // @flow
-import { statusFor } from './meta';
+import * as U from 'karet.util';
+import * as L from 'partial.lenses';
 
 interface StreamStatusEvent {
   streaming: boolean;
@@ -14,8 +15,16 @@ interface StreamStatusEvent {
   fps: number;
 }
 
-const StreamStatus = store => (event: StreamStatusEvent) => {
-  console.log({ event });
+const StreamStatus = (store: *) => (event: StreamStatusEvent) => {
+  console.log('StreamStatus', { event });
+  const view =
+    L.props('strain',
+            'totalStreamTime',
+            'numTotalFrames',
+            'numDroppedFrames',
+            'fps');
+
+  U.view(['stats', view], store).set(event);
 };
 
 export default StreamStatus;

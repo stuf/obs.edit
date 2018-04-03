@@ -35,10 +35,19 @@ interface ScenesState {
   sceneList: Array<*>;
 }
 
+interface StatsState {
+  fps?: number;
+  strain?: number;
+  totalStreamTime?: number;
+  numTotalFrames?: number;
+  numDroppedFrames?: number;
+}
+
 interface State {
   recording: VideoActivityState;
   streaming: VideoActivityState;
   profiles: Array<Profile>;
+  stats: StatsState;
   scenes: ScenesState;
   sources: Array<ObsSource>;
   specialSources: Array<ObsSpecialSource>;
@@ -53,6 +62,7 @@ const initialState: State = {
   streaming: {
     status: 'stopped',
   },
+  stats: {},
   profiles: [],
   scenes: {
     current: '',
