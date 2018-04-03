@@ -1,7 +1,12 @@
 dl {
-  border: solid 1px #f00;
+  //border: solid 1px #f00;
   display: grid;
-  grid-template-columns: auto 3fr;
+  grid-template-columns: auto 4fr;
+
+  &.horizontal {
+    grid-template-columns: repeat(3, 1fr) repeat(3, 1fr);
+    grid-gap: s(2);
+  }
 
   dt, dd {
     margin-top: 0.5rem;
@@ -9,6 +14,10 @@ dl {
 
   dt {
     font-weight: bold;
+  }
+
+  dd {
+    text-align: right;
   }
 }
 

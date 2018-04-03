@@ -1,3 +1,32 @@
 $font-family-default: 'TT Norms', sans-serif !default;
 $font-family-monospace: 'Overpass Mono' !default;
 $font-family-vcr: 'VCR OSD Mono' !default;
+
+//
+
+$font-scale: (
+  0: 3rem,
+  1: 2rem,
+  2: 1.5rem,
+  3: 1rem,
+  4: .875rem,
+  5: .75rem,
+  6: .625rem
+) !default;
+
+$leadings: (
+  heading: 1.15,
+  copy: 1.5,
+  tight: 1.25,
+  single: 1
+) !default;
+
+//
+
+@function line-height($size) {
+  @return map-get($leadings, $size);
+}
+
+@function font-size($size) {
+  @return map-get($font-scale, $size);
+}

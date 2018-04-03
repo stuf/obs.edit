@@ -1,8 +1,5 @@
-@import 'spacing';
-
-$button-padding-x: s(3);
-$button-padding-y: s(2);
-$button-padding: $button-padding-y $button-padding-x;
+@import 'variables';
+@import 'color';
 
 @mixin button-base() {
   background-color: $color-primary;

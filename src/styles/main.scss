@@ -1,12 +1,18 @@
-@import 'base/variables';
 @import 'base/buttons';
-@import 'base/color';
+@import 'base/forms';
 @import 'base/spacing';
 @import 'base/typography';
 @import 'base/lists';
+@import 'base/html';
+
+@import 'base/variables';
+@import 'base/color';
 
 @import 'components/buttons';
 @import 'components/timecode';
+@import 'components/stats';
+@import 'components/forms';
+@import 'components/groups';
 
 * {
   box-sizing: border-box;
@@ -35,12 +41,12 @@ dl pre {
 
 .AppMain {
   display: grid;
-  grid-template-columns: repeat($cols, 1fr);
-  grid-gap: 0.5rem;
+  grid-template-columns: repeat($grid-col-count, 1fr);
+  grid-gap: $grid-col-gap;
   grid-auto-rows: auto;
 
   > section {
-    grid-column: 1 / span $cols;
+    grid-column: 1 / span $grid-col-count;
   }
 }
 

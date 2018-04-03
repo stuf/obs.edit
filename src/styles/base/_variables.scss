@@ -1,4 +1,21 @@
-$cols: 3 !default;
+@import 'color';
+@import 'spacing';
+
+$grid-col-count: 12 !default;
+$grid-col-gap: s(2);
 
 $border-radius: 0.3rem !default;
 $border-radius-big: $border-radius * 2;
+
+// Buttons
+
+$button-padding-x: s(3);
+$button-padding-y: s(2);
+$button-padding: $button-padding-y $button-padding-x;
+
+// Form elements
+
+$text-input-border-color: $color-primary;
+$text-input-border: solid 1px $text-input-border-color;
+$text-input-padding: s(2);
+

@@ -1,0 +1,10 @@
+
+// Text input
+
+.Input {
+  // .Input__text
+  &__text {
+    @include input-field-base;
+    display: block;
+  }
+}
