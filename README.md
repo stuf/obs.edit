@@ -5,4 +5,4 @@ Experimental helpers for managing streaming and recording in OBS with the OBS We
 
 These tools are aimed towards making the job of editing video files and marking highlights easier, e.g. by importing markers into NLE editing suites.
 
-![Screenshot](assets/screenshot.png)
+![Screenshot](assets/screenshot2.png)
