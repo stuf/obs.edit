@@ -3,7 +3,7 @@ import type { OutputMedia } from './models';
 
 export interface LocalSettings {
   recordingFolders: Array<string>;
-};
+}
 
 export interface StatsState {
   fps?: number;
@@ -11,6 +11,6 @@ export interface StatsState {
   totalStreamTime?: number;
   numTotalFrames?: number;
   numDroppedFrames?: number;
-  streaming?: OutputMedia;
-  recording?: OutputMedia;
+  streaming: OutputMedia;
+  recording: OutputMedia;
 }

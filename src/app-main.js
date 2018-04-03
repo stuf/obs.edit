@@ -54,14 +54,16 @@ const AppMain = ({ ws }, { store }) => {
           <Timecode value={M.timecodeValueIn(rec)}
                     type="Recording"
                     active={M.activeIn(rec)} />
-          <Stats stats={M.recordingIn(stats)} />
+          <Stats stats={M.recordingIn(stats)}
+                 className="horizontal" />
         </article>
 
         <article>
           <Timecode value={M.timecodeValueIn(stream)}
             type="Streaming"
             active={M.activeIn(stream)} />
-          <Stats stats={M.streamingIn(stats)} />
+          <Stats stats={M.streamingIn(stats)}
+                 className="horizontal" />
         </article>
       </section>
 
@@ -79,10 +81,27 @@ const AppMain = ({ ws }, { store }) => {
 
         <aside>
           <section className="Section Section_RecFolder">
-            <input type="datalist" list="datalist" />
-            <datalist id="datalist">
-              <option value="Default" />
-            </datalist>
+            <h3>Recording folder</h3>
+
+            <div>
+              <div className="Group__input">
+                <input type="text"
+                       className="Input__text"
+                       value={U.seq(store, M.OBS.recordingFolderIn)} />
+                <button>Save</button>
+              </div>
+
+              <details open>
+                <summary>Recent folders</summary>
+
+                <ul>
+                  {U.seq(store,
+                         M.recordingFoldersIn,
+                         U.mapElems((el, i) =>
+                           <li key={i}>{el}</li>))}
+                </ul>
+              </details>
+            </div>
           </section>
           <section className="Section Section_SceneSelect">
             <SceneSelect current={U.view(['scenes', 'current'], store)}

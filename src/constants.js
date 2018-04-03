@@ -54,5 +54,8 @@ export type EnumType<T> = $Values<T>;
 export type RequestType = EnumType<typeof requests>;
 export type EventType = EnumType<typeof events>;
 
-export const Request: { [key: RequestType]: RequestType } = freeze({ ...requests });
-export const Event: { [key: EventType]: EventType } = freeze({ ...events });
+export type RequestMap = { [key: RequestType]: RequestType };
+export type EventMap = { [key: EventType]: EventType };
+
+export const Request: RequestMap = freeze({ ...requests });
+export const Event: EventMap = freeze({ ...events });

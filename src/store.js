@@ -71,6 +71,9 @@ const initialState: State = {
     filenameFormatting: '',
     recordingFolder: '',
   },
+  settingsLocal: {
+    recordingFolders: []
+  },
   obs: {},
 };
 
