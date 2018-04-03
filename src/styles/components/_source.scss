@@ -1,0 +1,11 @@
+.Sources {
+  svg {
+    border: solid 1px darken($color-primary, 15%);
+  }
+
+  rect {
+    vector-effect: non-scaling-stroke;
+    shape-rendering: crispEdges;
+    fill: fade-out($color: $color-primary, $amount: 0.7);
+  }
+}

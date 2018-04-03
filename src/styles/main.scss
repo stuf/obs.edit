@@ -13,6 +13,8 @@
 @import 'components/stats';
 @import 'components/forms';
 @import 'components/groups';
+@import 'components/details';
+@import 'components/source';
 
 * {
   box-sizing: border-box;
@@ -59,9 +61,8 @@ section.Group {
 
 section.Section {
   h3 {
-    margin-top: 0;
-    padding-bottom: s(2);
-    margin-bottom: s(2);
+    margin: s(1) 0 s(2);
+    padding: s(2) 0;
     border-bottom: solid 1px $color-primary;
   }
 

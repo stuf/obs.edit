@@ -1,25 +1,41 @@
 $headings: (
-  h1: font-size(1),
-  h2: font-size(2),
-  h3: font-size(3)
+  1: font-scale(0),
+  2: font-scale(1),
+  3: font-scale(2)
 );
 
-@mixin -heading($size) {
-  font-size: map-get($headings, $size);
-  font-weight: bold;
+@function font-size($size) {
+  @return map-get($headings, $size);
 }
 
 @each $el, $size in $headings {
-  #{$el} {
-    @include -heading($size);
+  h#{el} {
+    font-size: font-size($el);
   }
 }
 
-details {
-  border: solid 1px #f00;
+h1,
+h2,
+h3 {
+  font-weight: bold;
+}
 
-  summary {
-    @include -heading(h3);
+h1 {
+  font-size: font-size(1);
+}
+
+h2 {
+  font-size: font-size(2);
+}
+
+h3 {
+  font-size: font-size(4);
+}
+
+details {
+  > summary {
+    font-size: font-size(4);
+    font-weight: bold;
     padding: s(2);
   }
 }

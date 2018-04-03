@@ -7,6 +7,11 @@ $grid-col-gap: s(2);
 $border-radius: 0.3rem !default;
 $border-radius-big: $border-radius * 2;
 
+$border-color: $color-primary;
+$border-width: 1px;
+$border-style: solid;
+$border: $border-style $border-width $border-color;
+
 // Buttons
 
 $button-padding-x: s(3);
